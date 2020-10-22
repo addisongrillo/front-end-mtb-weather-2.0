@@ -1,0 +1,29 @@
+.trailCard{
+padding:10px;
+margin-bottom: 20px;
+max-width:100%;
+}
+
+.hoursContainer{
+    flex: 1;
+    max-width: 1000px;
+    padding:10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;    
+    overflow: scroll;
+    }
+
+.hours{
+    min-width:180px;
+    padding:10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    }
+.weatherIcon{
+    width: 80px;
+}
+.innerCard{
+    display: flex;
+    align-items: center;
+}

@@ -23,6 +23,18 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 const drawerWidth = 240;
 const loggedin=true;
 const useStyles = makeStyles((theme) => ({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0em'
+    },
+    '*::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 10px 10px 60px rgba(0,0,0,0.3)'
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(0,0,0,.3)',
+      outline: '0px solid black'
+    }
+  },
   root: {
     display: 'flex',
   },
@@ -65,6 +77,7 @@ function App(props) {
   };
   const theme = createMuiTheme({
     palette: {
+      type:"dark",
       primary: {
         light: '#487e4c',
         main: '#1b5e20',
