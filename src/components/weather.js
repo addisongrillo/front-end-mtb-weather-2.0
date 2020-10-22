@@ -1,13 +1,16 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
-import Trail from './trail'
+import Trail from './trail';
+import Container from '@material-ui/core/Container';
+import './weather.css';
 
 function Weather() {
+    const {REACT_APP_BACKEND_URL} = process.env;
     const [weather, setWeather] = useState({ hits: [] });
       useEffect(() => {
         const fetchData = async () => {
           const result = await axios(
-            `http://localhost:3000/api/v1/users/1/trails`,
+            `${REACT_APP_BACKEND_URL}/api/v1/users/1/trails`,
           );
      
           setWeather(result.data);
