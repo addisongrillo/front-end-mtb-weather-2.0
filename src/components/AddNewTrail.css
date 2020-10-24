@@ -1,0 +1,25 @@
+#gMap{
+    margin:30px;
+}
+#search-input{
+    width: 350px;
+}
+#searchForm{
+    margin:10px;
+}
+#submitButton{
+    margin:10px;
+}
+#antContainer{
+    display: flex;
+    align-items: center;
+}
+#header{
+    text-align: center;
+}
+#addTrailBtn{
+    margin:10px;
+}
+#trailAdded{
+    position:absolute;
+}

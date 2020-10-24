@@ -1,27 +1,42 @@
-import React from 'react';
+import  React, {useState}  from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+import {
+createMuiTheme, 
+ThemeProvider,
+AppBar,
+CssBaseline,
+Divider,
+Drawer,
+Hidden,
+IconButton, 
+List,
+ListItem,
+ListItemText,
+Toolbar,
+Typography,
+CircularProgress,
+//useTheme,
+makeStyles
+} from '@material-ui/core';
+// import {
+// InboxIcon,
+// ListItemIcon,
+// MailIcon,
+// } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Weather from './components/weather'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import Weather from './components/weather';
+import AddNewTrail from './components/AddNewTrail'
+import './App.css'
 
 
 const drawerWidth = 240;
-const loggedin=true;
+//const loggedin=true;
 const useStyles = makeStyles((theme) => ({
   '@global': {
     '*::-webkit-scrollbar': {
@@ -69,6 +84,12 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
   const { window } = props;
+  const linkUrls=['/','/AddNewTrail','/About', '/LogOut']
+  const [loading, setLoading] = useState(false);
+  function changeLoading(val) {
+    setLoading(val);
+  }
+
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -99,10 +120,13 @@ function App(props) {
       <Divider />
       <List>
         {['Home','Add New Trail', 'About', 'Logout'].map((text, index) => (
-          <ListItem button key={text}>
+          <Link to={linkUrls[index]} key={text}>
+          <ListItem button >
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText primary={text} />
+            <ListItemText primary={text}/>
           </ListItem>
+          </Link>
+          
         ))}
       </List>
       {/* <Divider /> */}
@@ -121,8 +145,11 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
+       <Router>
+      {loading && <CircularProgress className ="Spinner" size="6rem"/>}
       <div className={classes.root}>
         <CssBaseline />
+        
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton
@@ -172,10 +199,25 @@ function App(props) {
         </nav>
         <main className={classes.content}>
       <div id="container">
-        <Weather/>
+        
+        <Switch>
+         
+          <Route path="/AddNewTrail">
+            <AddNewTrail changeLoading={changeLoading}/>
+          </Route>
+          <Route path="/About">
+            <h1>About</h1>
+          </Route>
+          <Route path="/">
+          <Weather changeLoading={changeLoading}/>
+          </Route>
+        </Switch>
+
+    
       </div>
         </main>
       </div>
+      </Router>
     </ThemeProvider>
   );
 }
