@@ -17,6 +17,7 @@
     "dotenv": "^8.2.0",
     "google-map-react": "^2.1.8",
     "material-ui-icons": "^1.0.0-beta.36",
+    "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-geocode": "^0.2.2",

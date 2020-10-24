@@ -21,7 +21,7 @@ function Weather(props) {
      
           setWeather(result.data);
           changeLoading(false)
-          console.log(result.data)
+          //console.log(result.data)
         };
      
         fetchData();

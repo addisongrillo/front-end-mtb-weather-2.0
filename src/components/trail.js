@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Card, CardContent} from '@material-ui/core';
-import axios from 'axios';
 import {Button, Modal} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment'
 import './trail.css'
 
 const getModalStyle = () => {
@@ -34,6 +34,7 @@ function Trail(props) {
   const handleOpen = (id) => {
     setOpen(true);
   };
+  //console.log(props.trail.weather.hourly[0].dt)
   
   const handleClose = () => {
     setOpen(false);
@@ -64,12 +65,12 @@ function Trail(props) {
         <Button id ="deleteTrailButton"variant="contained" color="secondary" onClick={handleOpen}>Delete Trail</Button>
       </div>
       <CardContent className="hoursContainer" variant="outlined">
-      {props.trail.weather.length>0 &&
-      props.trail.weather.map((h, index) =>{
+      {props.trail.weather.hourly.length>0 &&
+      props.trail.weather.hourly.map((h, index) =>{
       return <Card key={index} className="hours" variant="outlined">
                 <div className="innerCard" >
                   <div>
-                    <p>{h.dt}</p>
+                    <p>{moment.unix(h.dt).format("ha MM/DD")}</p>
                     <p>Temp: {Math.round(h.temp)}&#176;</p>
                     <p>Rain: {Math.round(h.pop * 100)}%</p>
                     <p>{h.weather[0].description}</p>
