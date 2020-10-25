@@ -1,5 +1,5 @@
 .Spinner{
-  z-index: 100;
+  z-index: 99;
   position: fixed;
   margin:auto;
   top: 0;

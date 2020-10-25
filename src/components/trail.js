@@ -31,10 +31,10 @@ function Trail(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  
   const handleOpen = (id) => {
     setOpen(true);
   };
-  //console.log(props.trail.weather.hourly[0].dt)
   
   const handleClose = () => {
     setOpen(false);
