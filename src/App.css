@@ -13,3 +13,8 @@ a {
   text-decoration: none;
   font-weight: bolder;
 }
+#usernameDisplay{
+  position: absolute;
+  margin-left: 20px;
+  margin-top: 20px;
+}

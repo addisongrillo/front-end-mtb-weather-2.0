@@ -1,28 +1,30 @@
-import  React, {useState}  from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory,
+  Redirect
 } from "react-router-dom";
 import PropTypes from 'prop-types';
 import {
-createMuiTheme, 
-ThemeProvider,
-AppBar,
-CssBaseline,
-Divider,
-Drawer,
-Hidden,
-IconButton, 
-List,
-ListItem,
-ListItemText,
-Toolbar,
-Typography,
-CircularProgress,
-//useTheme,
-makeStyles
+  createMuiTheme,
+  ThemeProvider,
+  AppBar,
+  CssBaseline,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+  Typography,
+  CircularProgress,
+  //useTheme,
+  makeStyles
 } from '@material-ui/core';
 // import {
 // InboxIcon,
@@ -32,6 +34,7 @@ makeStyles
 import MenuIcon from '@material-ui/icons/Menu';
 import Weather from './components/weather';
 import AddNewTrail from './components/AddNewTrail'
+import SignInForm from './components/SignInForm'
 import './App.css'
 
 
@@ -84,21 +87,28 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
   const { window } = props;
-  const linkUrls=['/','/AddNewTrail','/About', '/LogOut']
+  const linkUrls = ['/', '/AddNewTrail', '/About', '/Login']
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const history = useHistory();
   function changeLoading(val) {
     setLoading(val);
   }
 
   const classes = useStyles();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const LogOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    return <Redirect to="/Login" /> 
+  }
   const theme = createMuiTheme({
     palette: {
-      type:"dark",
+      type: "dark",
       primary: {
         light: '#487e4c',
         main: '#1b5e20',
@@ -116,18 +126,31 @@ function App(props) {
 
   const drawer = (
     <div>
+      <h3 id="usernameDisplay">{username}</h3>
       <div className={classes.toolbar} />
+      
       <Divider />
       <List>
-        {['Home','Add New Trail', 'About', 'Logout'].map((text, index) => (
+        {['Home', 'Add New Trail', 'About'].map((text, index) => (
           <Link to={linkUrls[index]} key={text}>
-          <ListItem button >
-            {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText primary={text}/>
-          </ListItem>
+            <ListItem button >
+              {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+              <ListItemText primary={text} />
+            </ListItem>
           </Link>
-          
+
         ))}
+        {localStorage.getItem("token") == null && <Link to={linkUrls[3]} key={"Login"}>
+            <ListItem button >
+              {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+              <ListItemText primary="Login" />
+            </ListItem>
+          </Link>}
+        {localStorage.getItem("token") != null && 
+          <ListItem button onClick={LogOut} >
+            {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+            <ListItemText primary="Log Out" />
+          </ListItem>}
       </List>
       {/* <Divider /> */}
       {/* <List>
@@ -145,78 +168,81 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
-       <Router>
-      {loading && <CircularProgress className ="Spinner" size="6rem"/>}
-      <div className={classes.root}>
-        <CssBaseline />
-        
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              MTB Weather
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className={classes.content}>
-      <div id="container">
-        
-        <Switch>
-         
-          <Route path="/AddNewTrail">
-            <AddNewTrail changeLoading={changeLoading}/>
-          </Route>
-          <Route path="/About">
-            <h1>About</h1>
-          </Route>
-          <Route path="/">
-          <Weather changeLoading={changeLoading}/>
-          </Route>
-        </Switch>
+      <Router>
+        {loading && <CircularProgress className="Spinner" size="6rem" />}
+        <div className={classes.root}>
+          <CssBaseline />
 
-    
-      </div>
-        </main>
-      </div>
+          <AppBar position="fixed" className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                className={classes.menuButton}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap>
+                MTB Weather
+            </Typography>
+            </Toolbar>
+          </AppBar>
+          <nav className={classes.drawer} aria-label="mailbox folders">
+            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+            <Hidden smUp implementation="css">
+              <Drawer
+                container={container}
+                variant="temporary"
+                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
+                }}
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+            <Hidden xsDown implementation="css">
+              <Drawer
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                variant="permanent"
+                open
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+          </nav>
+          <main className={classes.content}>
+            <div id="container">
+
+              <Switch>
+
+                <Route path="/AddNewTrail">
+                  <AddNewTrail changeLoading={changeLoading} />
+                </Route>
+                <Route path="/About">
+                  <h1>About</h1>
+                </Route>
+                <Route path="/Login">
+                  <SignInForm  setUsername={setUsername} changeLoading={changeLoading}/>
+                </Route>
+                <Route path="/">
+                  <Weather changeLoading={changeLoading} />
+                </Route>
+              </Switch>
+
+
+            </div>
+          </main>
+        </div>
       </Router>
     </ThemeProvider>
   );
