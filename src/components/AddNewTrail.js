@@ -19,7 +19,7 @@ function AddNewTrail(props) {
     }
     changeLoading(true);
     const result = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/1/trails?name=${trail.Name}&lat=${trail.lat}&lon=${trail.lon}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/v1/trails?name=${trail.Name}&lat=${trail.lat}&lon=${trail.lon}`,
       {
         headers: {
           'Authorization': localStorage.getItem("token")

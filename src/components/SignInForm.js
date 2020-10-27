@@ -38,12 +38,10 @@ function SignInForm(props) {
                     }
         }
         ).then((res) => {
-            localStorage.setItem("token", res.data.auth_token)
-            localStorage.setItem("username", res.data.user.username)
             setUsername("")
             setPassword("")
-            props.setUsername(res.data.user.username)
-            props.changeLoading(false)
+            props.Login(res.data)
+            //props.changeLoading(false)
             history.push("/");
         }).catch( (error) =>{
             if (error.response) {
@@ -53,10 +51,8 @@ function SignInForm(props) {
             } else {
                 console.log('Error', error.message);
             }
-        })
-        
-        props.changeLoading(false)
-        
+            props.changeLoading(false)
+        })   
     }
     const formDivStyle = {
         margin: "auto",

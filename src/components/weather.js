@@ -54,7 +54,7 @@ function Weather(props) {
   const fetchData = async () => {
     changeLoading(true);
     const result = await axios(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/1/trails`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/v1/trails`,
       {
         headers: {
           'Authorization': localStorage.getItem("token")
@@ -63,17 +63,22 @@ function Weather(props) {
     );
 
     setWeather(result.data);
-    //console.log(result.data)
     changeLoading(false)
   };
 
   useEffect(() => {
-    fetchData();
+    // if(localStorage.getItem("token")!==null){
+      if(props.loggedin === true){
+      console.log("loggedin")
+      fetchData();
+    }else{
+      console.log("nah")
+    }
   }, []);
   const deleteTrail = async (id) => {
     changeLoading(true);
     const result = await axios.delete(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/1/trails/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/v1/trails/${id}`,
       {
         headers: {
           'Authorization': localStorage.getItem("token")
@@ -88,7 +93,7 @@ function Weather(props) {
     if (order.length > 0) {
       changeLoading(true);
       await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/1/trails/changeOrder`, { order: order },
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/trails/changeOrder`, { order: order },
         {
           headers: {
             'Authorization': localStorage.getItem("token")

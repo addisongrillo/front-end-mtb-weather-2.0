@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
-  useHistory,
-  Redirect
+  useHistory
 } from "react-router-dom";
 import PropTypes from 'prop-types';
 import {
@@ -36,6 +35,7 @@ import Weather from './components/weather';
 import AddNewTrail from './components/AddNewTrail'
 import SignInForm from './components/SignInForm'
 import './App.css'
+import { ToggleOnRounded } from '@material-ui/icons';
 
 
 const drawerWidth = 240;
@@ -89,12 +89,28 @@ function App(props) {
   const { window } = props;
   const linkUrls = ['/', '/AddNewTrail', '/About', '/Login']
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState("");
+  const [loggedin, setLoggedin] = useState(false);
+  //const [username, setUsername] = useState("");
   const history = useHistory();
-  function changeLoading(val) {
+  //const LoginToggle = React.useCallback(() => setLoggedin(!loggedin));
+
+  const changeLoading = (val) => {
     setLoading(val);
   }
+  
+  useEffect(() => {
 
+
+    if(localStorage.getItem("token")!==null) {
+      setLoggedin(true)
+      console.log("yah")
+   }else{
+     console.log("nah")
+    history.push('/Login')
+   }
+    //loggedin=== true ? setUsername(localStorage.getItem("username")) : setUsername("")
+    console.log(loggedin)
+  }, []);
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -104,7 +120,16 @@ function App(props) {
   const LogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    return <Redirect to="/Login" /> 
+    //setUsername("")
+    setLoggedin(false)
+    history.push("/Login");
+  }
+  const Login= ( data ) => {
+    setLoggedin(true)
+    localStorage.setItem("token", data.auth_token)
+    localStorage.setItem("username", data.user.username)
+    setLoading(true)
+    //setUsername(data.user.username)
   }
   const theme = createMuiTheme({
     palette: {
@@ -126,7 +151,7 @@ function App(props) {
 
   const drawer = (
     <div>
-      <h3 id="usernameDisplay">{username}</h3>
+      <h3 id="usernameDisplay">{localStorage.getItem("username")}</h3>
       <div className={classes.toolbar} />
       
       <Divider />
@@ -140,13 +165,13 @@ function App(props) {
           </Link>
 
         ))}
-        {localStorage.getItem("token") == null && <Link to={linkUrls[3]} key={"Login"}>
+        {loggedin == false && <Link to={linkUrls[3]} key={"Login"}>
             <ListItem button >
               {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
               <ListItemText primary="Login" />
             </ListItem>
           </Link>}
-        {localStorage.getItem("token") != null && 
+        {loggedin == true && 
           <ListItem button onClick={LogOut} >
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary="Log Out" />
@@ -168,7 +193,7 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
+      {/* <Router> */}
         {loading && <CircularProgress className="Spinner" size="6rem" />}
         <div className={classes.root}>
           <CssBaseline />
@@ -223,7 +248,7 @@ function App(props) {
           <main className={classes.content}>
             <div id="container">
 
-              <Switch>
+
 
                 <Route path="/AddNewTrail">
                   <AddNewTrail changeLoading={changeLoading} />
@@ -232,18 +257,17 @@ function App(props) {
                   <h1>About</h1>
                 </Route>
                 <Route path="/Login">
-                  <SignInForm  setUsername={setUsername} changeLoading={changeLoading}/>
+                  <SignInForm  Login={Login}  changeLoading={changeLoading}/>
                 </Route>
                 <Route path="/">
-                  <Weather changeLoading={changeLoading} />
+                  <Weather key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />
                 </Route>
-              </Switch>
 
 
             </div>
           </main>
         </div>
-      </Router>
+      {/* </Router> */}
     </ThemeProvider>
   );
 }
