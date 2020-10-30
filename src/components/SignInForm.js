@@ -6,8 +6,7 @@ import {
     TextField,
     Grid,
     Paper,
-    Typography,
-    Link,
+    Typography
 } from "@material-ui/core";
 import './SignInForm.css'
 
@@ -53,11 +52,6 @@ function SignInForm(props) {
             }
             props.changeLoading(false)
         })   
-    }
-    const formDivStyle = {
-        margin: "auto",
-        padding: "20px",
-        width: "80%"
     }
 
     return(

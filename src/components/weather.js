@@ -6,16 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DraggableList from './DraggableList'
 import './weather.css';
 
-const getModalStyle = () => {
-  //const top = 0
-  //const left = 0
 
-  return {
-    //top: `${top}%`,
-    //left: `${left}%`,
-    //transform: `translate(-${top}%, -${left}%)`,
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 function Weather(props) {
   const classes = useStyles();
   const [weather, setWeather] = useState({ trails: [] });
-  const [modalStyle] = useState(getModalStyle);
+  //const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState([]);
 
@@ -102,7 +93,6 @@ function Weather(props) {
 
       );
       fetchData()
-      changeLoading(false)
     }
     handleClose()
   }
@@ -116,13 +106,14 @@ function Weather(props) {
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
         >
-          <div style={modalStyle} className={classes.paper}>
+          <div id="orderModalDiv" className={classes.paper}>
             <h2 id="simple-modal-title">Update Trail Order.</h2>
-            <DraggableList list={weather} updateOrderValue={updateOrderValue} />
+            <DraggableList id="orderDrag" list={weather} updateOrderValue={updateOrderValue} />
             <Button id="updateTrailOrderFinalButton" variant="contained" color="primary" onClick={updateOrder}>Update</Button>
           </div>
         </Modal>
-        <Button id="changeOrderButton" variant="contained" color="primary" onClick={handleOpen}>Change Order</Button>
+        {weather.length > 0 &&
+        <Button id="changeOrderButton" variant="contained" color="primary" onClick={handleOpen}>Change Order</Button>}
         {weather.length > 0 &&
           weather.map(t => {
             return <Trail deleteTrail={deleteTrail} changeLoading={changeLoading} key={t.trail.id} trail={t} />

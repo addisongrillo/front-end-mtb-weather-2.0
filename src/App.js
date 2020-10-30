@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  BrowserRouter as Router,
+  //BrowserRouter as Router,
   Switch,
   Route,
   Link,
@@ -35,7 +35,6 @@ import Weather from './components/weather';
 import AddNewTrail from './components/AddNewTrail'
 import SignInForm from './components/SignInForm'
 import './App.css'
-import { ToggleOnRounded } from '@material-ui/icons';
 
 
 const drawerWidth = 240;
@@ -165,13 +164,13 @@ function App(props) {
           </Link>
 
         ))}
-        {loggedin == false && <Link to={linkUrls[3]} key={"Login"}>
+        {loggedin === false && <Link to={linkUrls[3]} key={"Login"}>
             <ListItem button >
               {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
               <ListItemText primary="Login" />
             </ListItem>
           </Link>}
-        {loggedin == true && 
+        {loggedin === true && 
           <ListItem button onClick={LogOut} >
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary="Log Out" />
@@ -249,7 +248,7 @@ function App(props) {
             <div id="container">
 
 
-
+              <Switch>
                 <Route path="/AddNewTrail">
                   <AddNewTrail changeLoading={changeLoading} />
                 </Route>
@@ -262,6 +261,7 @@ function App(props) {
                 <Route path="/">
                   <Weather key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />
                 </Route>
+              </Switch>
 
 
             </div>
