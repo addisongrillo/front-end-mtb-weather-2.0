@@ -11,12 +11,12 @@ import {
     Paper,
     Typography
 } from "@material-ui/core";
-import './SignInForm.css'
+import './CreateAccount.css'
 
-function SignInForm(props) {
+function CreateAccount(props) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [invalid, setInvalid] = useState(false)
+    const [error, setError] = useState(false)
     const history = useHistory();
 
     const handleUsernameChange = (evt) => {
@@ -27,9 +27,7 @@ function SignInForm(props) {
         setPassword(evt.target.value)
     }
 
-    const handleSubmit = async (evt) => {
-        evt.preventDefault()
-        props.changeLoading(true)
+    const handleLogin = async() =>{
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/authenticate`, 
         JSON.stringify({
             username,
@@ -41,7 +39,6 @@ function SignInForm(props) {
                     }
         }
         ).then((res) => {
-            setInvalid(false)
             setUsername("")
             setPassword("")
             props.Login(res.data)
@@ -49,15 +46,48 @@ function SignInForm(props) {
             history.push("/");
         }).catch( (error) =>{
             if (error.response) {
-                setInvalid(true)
+                setError(true)
                 console.log(error.response)
             } else if (error.request) {
+                setError(true)
                 console.log(error.request);
             } else {
                 console.log('Error', error.message);
+                setError(true)
             }
             props.changeLoading(false)
         })   
+    }
+    
+    const handleSubmit = async (evt) => {
+        evt.preventDefault()
+        props.changeLoading(true)
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users`, 
+        JSON.stringify({
+            username,
+            password
+        }),
+        {headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                    }
+        }
+        ).then(() => {
+            handleLogin()
+        }).catch( (error) =>{
+            if (error.response) {
+                console.log(error.response)
+                setError(true)
+            } else if (error.request) {
+                console.log(error.request);
+                setError(true)
+            } else {
+                console.log('Error', error.message);
+                setError(true)
+            }
+            props.changeLoading(false)
+        })   
+        
     }
 
     return(
@@ -80,7 +110,7 @@ function SignInForm(props) {
                                 <Grid item>
                                     
                                     <Typography id="signin" component="h1" variant="h5">
-                                        Log in
+                                        Create Account
                                     </Typography>
                                     
                                    
@@ -119,23 +149,9 @@ function SignInForm(props) {
                                                     type="submit"
                                                     className="button-block"
                                                 >
-                                                    Log In
+                                                    Create Account
                                                 </Button>
-                                                
-                                                
                                             </Grid>
-                                            <h3>Don't have an account?</h3>
-                                            <   Link to={'/CreateAccount'}>
-                                                    <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    className="button-block"
-                                                    id="createAccount"
-                                                    >Create an Account</Button>
-                                                </Link>
-                                                { invalid &&
-                                                <h3 id="IC">Invalid Credentials</h3>
-                                                }
                                         </Grid>
                                     </form>
                                 </Grid>
@@ -152,5 +168,5 @@ function SignInForm(props) {
     )
 }
 
-export default SignInForm
+export default CreateAccount
 

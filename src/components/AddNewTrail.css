@@ -23,3 +23,6 @@
 #trailAdded{
     position:absolute;
 }
+#loginText:hover{
+    color:green;
+}

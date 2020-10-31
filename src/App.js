@@ -34,6 +34,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Weather from './components/weather';
 import AddNewTrail from './components/AddNewTrail'
 import SignInForm from './components/SignInForm'
+import CreateAccount from './components/CreateAccount'
 import './App.css'
 
 
@@ -102,13 +103,13 @@ function App(props) {
 
     if(localStorage.getItem("token")!==null) {
       setLoggedin(true)
-      console.log("yah")
+      //console.log("yah")
    }else{
-     console.log("nah")
+     //console.log("nah")
     history.push('/Login')
    }
     //loggedin=== true ? setUsername(localStorage.getItem("username")) : setUsername("")
-    console.log(loggedin)
+    //console.log(loggedin)
   }, []);
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -250,13 +251,16 @@ function App(props) {
 
               <Switch>
                 <Route path="/AddNewTrail">
-                  <AddNewTrail changeLoading={changeLoading} />
+                  <AddNewTrail key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />
                 </Route>
                 <Route path="/About">
                   <h1>About</h1>
                 </Route>
                 <Route path="/Login">
                   <SignInForm  Login={Login}  changeLoading={changeLoading}/>
+                </Route>
+                <Route path="/CreateAccount">
+                  <CreateAccount  Login={Login}  changeLoading={changeLoading}/>
                 </Route>
                 <Route path="/">
                   <Weather key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />

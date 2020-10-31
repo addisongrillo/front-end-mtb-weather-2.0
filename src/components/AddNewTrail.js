@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import {
+  Link
+} from "react-router-dom";
 import './AddNewTrail.css';
 import GoogleMapReact from 'google-map-react';
 import Geocode from "react-geocode"
@@ -11,7 +14,7 @@ function AddNewTrail(props) {
     props.changeLoading(val);
   }
 
-  const addTrail = async () => {
+  const addTrail = async (props) => {
     const trail = {
       name: trailName,
       lat: map.center.lat().toFixed(3),
@@ -69,61 +72,69 @@ function AddNewTrail(props) {
 
   return (
     <>
+      {!props.loggedin &&
+        <Link to={'/login'}>
+          <h1 id="loginText">Log in to add a new Trail.</h1>
+        </Link>
+      }
+      {props.loggedin &&
       <div>
-        <h1 id="header">Add New Trail</h1>
-      </div>
-      <div id="antContainer">
-        <div id='gMap'>
-          <div style={{ height: '50vh', width: '70vh' }}>
-            <GoogleMapReact
-              bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY }}
-              defaultCenter={{
-                lat: 26.134,
-                lng: -80.351
-              }}
-              defaultZoom={14}
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-
-            >
-              {/* <AnyReactComponent
-            lat={59.955413}
-            lng={30.337844}
-            text="My Marker"
-          /> */}
-            </GoogleMapReact>
-            <form id="searchForm">
-              {/* <input id="search-input" type="text" autoComplete="off" placeholder='Markham Park' name="search"></input> */}
-              <TextField id="search-input"
-                label="Search for a Trail by name or City"
-                autoComplete="off"
-                placeholder='Markham Park'
-                variant="outlined"
-                onChange={searchText}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    move(e)
-                  }
-                }}
-              />
-              <Button onClick={move} id="submitButton" variant="contained" color="primary" type="submit">Search</Button>
-            </form>
-          </div>
-
-        </div>
         <div>
-          <h2>Position the center of the map over the Trail</h2>
-          <h2>You can Drag the map or use the Search Bar</h2>
-          <TextField id="newTrailName"
-            label="Trail Name"
-            autoComplete="off"
-            variant="outlined"
-            onChange={changeTrailName}
-          />
-          <Button id="addTrailBtn" variant="contained" color="primary" onClick={addTrail}>Add Trail</Button>
-          {trailAdded && <p id="trailAdded">Trail Added!</p>}
+          <h1 id="header">Add New Trail</h1>
         </div>
-      </div>
+        <div id="antContainer">
+          <div id='gMap'>
+            <div style={{ height: '50vh', width: '70vh' }}>
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY }}
+                defaultCenter={{
+                  lat: 26.134,
+                  lng: -80.351
+                }}
+                defaultZoom={14}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+
+              >
+                {/* <AnyReactComponent
+              lat={59.955413}
+              lng={30.337844}
+              text="My Marker"
+            /> */}
+              </GoogleMapReact>
+              <form id="searchForm">
+                {/* <input id="search-input" type="text" autoComplete="off" placeholder='Markham Park' name="search"></input> */}
+                <TextField id="search-input"
+                  label="Search for a Trail by name or City"
+                  autoComplete="off"
+                  placeholder='Markham Park'
+                  variant="outlined"
+                  onChange={searchText}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      move(e)
+                    }
+                  }}
+                />
+                <Button onClick={move} id="submitButton" variant="contained" color="primary" type="submit">Search</Button>
+              </form>
+            </div>
+
+          </div>
+          <div>
+            <h2>Position the center of the map over the Trail</h2>
+            <h2>You can Drag the map or use the Search Bar</h2>
+            <TextField id="newTrailName"
+              label="Trail Name"
+              autoComplete="off"
+              variant="outlined"
+              onChange={changeTrailName}
+            />
+            <Button id="addTrailBtn" variant="contained" color="primary" onClick={addTrail}>Add Trail</Button>
+            {trailAdded && <p id="trailAdded">Trail Added!</p>}
+          </div>
+        </div>
+      </div>}
     </>
   )
 }
