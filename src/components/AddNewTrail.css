@@ -38,12 +38,18 @@
         flex-direction: column;
     }
     #AntForm{
-        margin-top: 10px;
+        margin-top: 0px;
         display: flex;
         flex-direction: column;
+        max-width: 320px;
+        
     }
     #trailAdded{
         position:relative;
         margin-top: -10px;
+    }
+    #newTrailName{
+        max-width: 100px;
+        visibility: hidden;
     }
 }
