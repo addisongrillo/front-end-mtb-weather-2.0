@@ -7,8 +7,10 @@ import GoogleMapReact from 'google-map-react';
 import Geocode from "react-geocode"
 import { TextField, Button } from '@material-ui/core';
 import axios from 'axios';
+import {useMediaQuery} from '../hooks/useMediaQuery';
 function AddNewTrail(props) {
 
+  const isMobile = useMediaQuery('(Max-width: 600px)');
   const changeLoading = (val) => {
     // Here, we invoke the callback with the new value
     props.changeLoading(val);
@@ -70,25 +72,36 @@ function AddNewTrail(props) {
     setTrailName(e.target.value)
   }
 
-  var minStyles = {
+  // var minStyles = {
 
-    margin: '0 auto',
-    height: '30vh',
-    width: '70vw',
+  //   margin: '0 auto',
+  //   height: '30vh',
+  //   width: '70vw',
+  //   textalign:'center'
+  // }
+  // var maxStyles = {
+  //   margin: '30px',
+  //   height: '50vh',
+  //   width: '70vh',
+  //   textalign:'center'
+  // }
+  // var style = function() {
+  //   if (window.innerWidth < 600) {
+  //     return minStyles;
+  //   } else {
+  //     return maxStyles;
+  //   }
+  // };
+  const style = {
+    container: isMobile => ({
+      // display: 'flex',
+      // flexDirection: isRowBased ? 'row' : 'column',
+      // justifyContent: 'space-around'
+    margin: isMobile ? '0 auto' : '30px',
+    height: isMobile ? '30vh':'50vh',
+    width: isMobile ? '70vw':'70vh',
     textalign:'center'
-  }
-  var maxStyles = {
-    margin: '30px',
-    height: '50vh',
-    width: '70vh',
-    textalign:'center'
-  }
-  var style = function() {
-    if (window.innerWidth < 600) {
-      return minStyles;
-    } else {
-      return maxStyles;
-    }
+    })
   };
   return (
     <>
@@ -104,7 +117,7 @@ function AddNewTrail(props) {
         </div>
         <div id="antContainer">
           <div>
-            <div id='gMap' style={style()}>
+            <div id='gMap' style={style.container(isMobile)}>
               <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY }}
                 defaultCenter={{
