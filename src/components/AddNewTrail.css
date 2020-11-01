@@ -21,7 +21,7 @@
 #trailAdded{
     position:absolute;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1100px) {
     #searchForm{
         margin-left: 0px;
         margin-top:10px;
