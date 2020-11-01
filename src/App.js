@@ -115,8 +115,13 @@ function App(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+      setMobileOpen(!mobileOpen);
   };
+  const closeDrawer = () =>{
+    if (mobileOpen){
+      setMobileOpen(!mobileOpen);
+    }
+  }
   const LogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
@@ -150,7 +155,7 @@ function App(props) {
   });
 
   const drawer = (
-    <div>
+    <div onClick={closeDrawer}>
       <h3 id="usernameDisplay">{localStorage.getItem("username")}</h3>
       <div className={classes.toolbar} />
       
@@ -276,12 +281,12 @@ function App(props) {
   );
 }
 
-App.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
+// App.propTypes = {
+//   /**
+//    * Injected by the documentation to work in an iframe.
+//    * You won't need it on your project.
+//    */
+//   window: PropTypes.func,
+// };
 
 export default App;

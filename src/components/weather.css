@@ -1,6 +1,7 @@
 #container {
     margin-top:30px;
-    padding:10px
+    padding:10px;
+    max-width:75vw;
 }
 #changeOrderButton{
     margin-bottom:20px;
@@ -29,3 +30,11 @@
 #addTrailText:hover{
     color:green;
 }
+
+@media only screen and (max-width: 600px) {
+    #container {
+        margin-top:20px;
+        padding:10px;
+        max-width:90vw;
+    }
+  }

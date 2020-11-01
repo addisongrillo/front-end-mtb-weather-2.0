@@ -68,16 +68,19 @@ function Trail(props) {
       {props.trail.weather.hourly.length>0 &&
       props.trail.weather.hourly.map((h, index) =>{
       return <Card key={index} className="hours" variant="outlined">
+                 <h3>{moment.unix(h.dt).format("ha MM/DD")}</h3>
                 <div className="innerCard" >
-                  <div>
-                    <p>{moment.unix(h.dt).format("ha MM/DD")}</p>
+               
+                  <div className="wInfo">
+                    
                     <p>Temp: {Math.round(h.temp)}&#176;</p>
                     <p>Rain: {Math.round(h.pop * 100)}%</p>
                     <p>{h.weather[0].description}</p>
-                  </div>
-                  <div>
-                    <img className="weatherIcon" src={`http://openweathermap.org/img/wn/${h.weather[0].icon}@2x.png`} alt="weather icon"/>
-                  </div>
+                    </div>
+                    <div>
+                      <img className="weatherIcon" src={`http://openweathermap.org/img/wn/${h.weather[0].icon}@2x.png`} alt="weather icon"/>
+                    </div>
+                  
               </div>
             </Card>
       })

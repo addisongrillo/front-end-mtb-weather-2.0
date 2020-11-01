@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Link
 } from "react-router-dom";
@@ -70,6 +70,26 @@ function AddNewTrail(props) {
     setTrailName(e.target.value)
   }
 
+  var minStyles = {
+
+    margin: '0 auto',
+    height: '30vh',
+    width: '70vw',
+    textalign:'center'
+  }
+  var maxStyles = {
+    margin: '30px',
+    height: '50vh',
+    width: '70vh',
+    textalign:'center'
+  }
+  var style = function() {
+    if (window.innerWidth < 600) {
+      return minStyles;
+    } else {
+      return maxStyles;
+    }
+  };
   return (
     <>
       {!props.loggedin &&
@@ -83,8 +103,8 @@ function AddNewTrail(props) {
           <h1 id="header">Add New Trail</h1>
         </div>
         <div id="antContainer">
-          <div id='gMap'>
-            <div style={{ height: '50vh', width: '70vh' }}>
+          <div>
+            <div id='gMap' style={style()}>
               <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY }}
                 defaultCenter={{
@@ -96,14 +116,9 @@ function AddNewTrail(props) {
                 onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
 
               >
-                {/* <AnyReactComponent
-              lat={59.955413}
-              lng={30.337844}
-              text="My Marker"
-            /> */}
               </GoogleMapReact>
+              </div>
               <form id="searchForm">
-                {/* <input id="search-input" type="text" autoComplete="off" placeholder='Markham Park' name="search"></input> */}
                 <TextField id="search-input"
                   label="Search for a Trail by name or City"
                   autoComplete="off"
@@ -118,10 +133,8 @@ function AddNewTrail(props) {
                 />
                 <Button onClick={move} id="submitButton" variant="contained" color="primary" type="submit">Search</Button>
               </form>
-            </div>
-
-          </div>
-          <div>
+              </div>
+          <div id="AntForm">
             <h2>Position the center of the map over the Trail</h2>
             <h2>You can Drag the map or use the Search Bar</h2>
             <TextField id="newTrailName"

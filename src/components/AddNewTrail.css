@@ -1,11 +1,9 @@
-#gMap{
-    margin:30px;
-}
 #search-input{
     width: 350px;
 }
 #searchForm{
-    margin:10px;
+    display: flex;
+    margin-left: 40px;
 }
 #submitButton{
     margin:10px;
@@ -23,6 +21,29 @@
 #trailAdded{
     position:absolute;
 }
-#loginText:hover{
-    color:green;
+@media only screen and (max-width: 600px) {
+    #searchForm{
+        margin-left: 0px;
+        margin-top:10px;
+        flex-direction: column;
+    }
+    #search-input{
+        width: 280px;
+    }
+    #submitButton{
+        
+    }
+    #antContainer{
+        display: flex;
+        flex-direction: column;
+    }
+    #AntForm{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    #trailAdded{
+        position:relative;
+        margin-top: -10px;
+    }
 }
