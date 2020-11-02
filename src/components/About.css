@@ -1,9 +1,9 @@
-p{
+.apara{
     font-size: 20px;
 }
 
 @media only screen and (max-width: 600px) {
-    p{
+    .apara{
         font-size: 12px;
     }
 }

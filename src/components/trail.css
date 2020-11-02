@@ -5,6 +5,7 @@ margin-bottom: 20px;
 }
 
 .hoursContainer{
+    height: 300px;
     flex: 1;
     width: 100%;
     padding:10px;
@@ -17,25 +18,28 @@ margin-bottom: 20px;
 
 .hours{
     min-width:180px;
-    padding:10px;
+    padding:5px;
     margin-bottom: 20px;
     margin-right: 10px;
+    text-align: center;
     }
 .weatherIcon{
+    margin-top: -30px;
     width: 80px;
     /* position: absolute; */
 }
 .innerCard{
     display: flex;
-    flex-direction: row;
-    align-items: right;
+    flex-direction: column;
+    align-items: center;
     
 }
 .wInfo{
     margin-top: -20px;
-    /* display: flex;
-    flex-direction: column;
-    align-items: flex-start; */
+    font-size: 18px;
+}
+.wInfo p{
+    margin-bottom: -15px;
 }
 #deleteTrailButton{
     float: right;
@@ -48,7 +52,13 @@ margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
 }
-@media only screen and (max-width: 600px) {
+#historySlider{
+    width: 300px;
+}
+#ShowHistoryLabel{
+    text-align: center;
+}
+@media only screen and (max-width: 1000px) {
     h1{
         font-size: 18px;
     }
@@ -59,12 +69,12 @@ margin-bottom: 20px;
         
     }
     .trailCard{
-        max-height: 380px;
+        max-height: 430px;
     }
     .hoursContainer{
         flex: 1;
         width: 100%;
-        height: 180px;
+        height: 230px;
         padding:10px;
         margin-bottom: 10px;
         display: flex;
@@ -75,7 +85,7 @@ margin-bottom: 20px;
     .hours{
         font-size: 10px;
         min-width:120px;
-        height: 120px;
+        height: 180px;
         padding:10px;
         margin-bottom: 10px;
         margin-right: 10px;
@@ -91,5 +101,28 @@ margin-bottom: 20px;
     .weatherIcon{
         width: 50px;
         /* position: absolute; */
-    }          
+    } 
+    .wInfo{
+        margin-top: -20px;
+        /* font-size: 12px; */
+    }   
+    .timeDate{
+        margin-top: 0px;
+        margin-bottom: 20px;
+    }
+    .headerAndDelete{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #historySlider{
+        max-width: 220px;
+    }
+    #ShowHistoryLabel{
+        font-size: 10px;
+        margin-bottom: -15px;
+    }
+    #deleteTrailButton{
+        margin-bottom: 10px;
+    }      
   }

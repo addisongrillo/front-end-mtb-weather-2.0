@@ -72,7 +72,7 @@ function Weather(props) {
         setNoTrails(true);
           console.log('Error', error.message);
       }
-      props.changeLoading(false)
+      changeLoading(false)
   }) 
 
     
