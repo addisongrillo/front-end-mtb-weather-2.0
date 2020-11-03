@@ -59,6 +59,7 @@ function Trail(props) {
       setApiDown(true)
     }else{
       setWeather(props.trail.weather.hourly)
+      setApiDown(false)
     }
       
   }, [props.trail.weather.hourly]);
@@ -142,7 +143,7 @@ function Trail(props) {
       </Modal>
       <div className="headerAndDelete">
         <h1 id='trailName'>{props.trail.trail.name}</h1>
-        { !apiDown &&
+        { apiDown === false &&
          <div id="historySlider">
           <Typography  id="ShowHistoryLabel" gutterBottom>
             Show History
@@ -160,7 +161,7 @@ function Trail(props) {
         <Button id ="deleteTrailButton"variant="contained" color="secondary" onClick={handleOpen}>Delete Trail</Button>
       </div>
       <CardContent className="hoursContainer" variant="outlined">
-      {apiDown==true &&
+      {apiDown===true &&
         <h1>Weather info currently not available</h1>
       }
       
