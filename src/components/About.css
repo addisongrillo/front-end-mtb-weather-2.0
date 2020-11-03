@@ -1,9 +1,42 @@
 .apara{
     font-size: 20px;
 }
+#aboutContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+
+}
+#aboutText{
+    width: 700px;
+    text-align: center;
+
+}
+#bikewheel{
+    margin:10px;
+    width: 150px;
+    float: right;
+}
 
 @media only screen and (max-width: 600px) {
     .apara{
         font-size: 12px;
+    }
+    #aboutContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    
+    }
+    #aboutText{
+        width: 80%;
+        text-align: center;
+        float: none;
+    }
+    #bikewheel{
+        margin:10px;
+        width: 100px;
     }
 }

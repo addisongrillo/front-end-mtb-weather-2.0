@@ -59,7 +59,7 @@ margin-bottom: 20px;
     text-align: center;
 }
 @media only screen and (max-width: 1000px) {
-    h1{
+    #trailName{
         font-size: 18px;
     }
     #container {

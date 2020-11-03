@@ -141,7 +141,7 @@ function Trail(props) {
         {body}
       </Modal>
       <div className="headerAndDelete">
-        <h1>{props.trail.trail.name}</h1>
+        <h1 id='trailName'>{props.trail.trail.name}</h1>
         { !apiDown &&
          <div id="historySlider">
           <Typography  id="ShowHistoryLabel" gutterBottom>
