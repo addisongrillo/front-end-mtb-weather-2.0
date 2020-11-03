@@ -33,6 +33,7 @@ function Trail(props) {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [weather, setWeather] = useState({ hours: [] });
+  const [apiDown, setApiDown] =useState([false]);
 
   const hoursAgo = [
     {
@@ -54,8 +55,13 @@ function Trail(props) {
   ];
   
   useEffect(() => {
+    if (props.trail.weather.cod >0){
+      setApiDown(true)
+    }else{
       setWeather(props.trail.weather.hourly)
-  }, []);
+    }
+      
+  }, [props.trail.weather.hourly]);
   
   const handleOpen = (id) => {
     setOpen(true);
@@ -82,9 +88,7 @@ function Trail(props) {
       let hist = res.data.weather_y.hourly
       hist.splice(22,1)
       let hist2=hist.concat(res.data.weather_t.hourly).filter(h => h.dt < ((Math.floor(Date.now() / 1000))-3600))
-      
       let hist3=[]
-      console.log(((Math.floor(Date.now() / 1000))-21600))
       switch (value){
         case 1:
           hist3=hist2.filter(h => h.dt > ((Math.floor(Date.now() / 1000))-25200))
@@ -138,8 +142,7 @@ function Trail(props) {
       </Modal>
       <div className="headerAndDelete">
         <h1>{props.trail.trail.name}</h1>
-        {/* <Button id ="deleteTrailButton"variant="contained" color="primary" onClick={handleOpen}>Show History</Button>
-         */}
+        { !apiDown &&
          <div id="historySlider">
           <Typography  id="ShowHistoryLabel" gutterBottom>
             Show History
@@ -153,10 +156,14 @@ function Trail(props) {
             marks={hoursAgo}
             onChangeCommitted={changeHistory}
           />
-        </div>
+        </div>}
         <Button id ="deleteTrailButton"variant="contained" color="secondary" onClick={handleOpen}>Delete Trail</Button>
       </div>
       <CardContent className="hoursContainer" variant="outlined">
+      {apiDown &&
+        <h1>Weather info currently not available</h1>
+      }
+      
       {weather.length>0 &&
       weather.map((h, index) =>{
       return <Card key={index} className="hours" variant="outlined">
@@ -167,7 +174,7 @@ function Trail(props) {
                   </div>
                   <div className="wInfo">
                     <p>Temp: {Math.round(h.temp)}&#176;</p>
-                    {((h.pop != 0) && (h.pop != null)) &&
+                    {h.pop != null &&
                       <p>Rain Chance: {Math.round(h.pop * 100)}%</p>
                     }
                     <p>{h.weather[0].description}</p>

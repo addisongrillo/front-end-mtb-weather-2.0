@@ -13,7 +13,7 @@ import './CreateAccount.css'
 function CreateAccount(props) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [error, setError] = useState(false)
+    const [setError] = useState(false)
     const history = useHistory();
 
     const handleUsernameChange = (evt) => {

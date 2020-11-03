@@ -31,6 +31,7 @@ function Weather(props) {
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState([]);
   const [noTrails, setNoTrails] =useState([false]);
+ 
 
   const handleOpen = (id) => {
     setOpen(true);
@@ -56,8 +57,13 @@ function Weather(props) {
         }
       }
     ).then((res =>{
-      setNoTrails(false);
-      setWeather(res.data);
+      //if(res.data.trail.weather.cod > 0){
+      //  console.log('nah')
+      //}else{
+        setNoTrails(false);
+        setWeather(res.data);
+      //}
+      
     changeLoading(false)
     })
 
@@ -70,7 +76,7 @@ function Weather(props) {
           console.log(error.request);
       } else {
         setNoTrails(true);
-          console.log('Error', error.message);
+        console.log('Error', error.message);
       }
       changeLoading(false)
   }) 
@@ -84,7 +90,7 @@ function Weather(props) {
       //console.log("loggedin")
       fetchData();
     }
-  }, []);
+  }, [props.loggedin]);
   const deleteTrail = async (id) => {
     changeLoading(true);
     await axios.delete(
@@ -123,7 +129,7 @@ function Weather(props) {
         <h1 id="loginText">Log in to view your trails.</h1>
       </Link>
     }
-    {(props.loggedin && noTrails==true) &&
+    {(props.loggedin && noTrails===true) &&
       <Link to={'/AddNewTrail'}>
         <h1 id="addTrailText">You don't have any trails, Click here to add some.</h1>
       </Link>

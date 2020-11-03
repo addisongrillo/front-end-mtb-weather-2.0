@@ -88,7 +88,7 @@ margin-bottom: 20px;
         height: 180px;
         padding:10px;
         margin-bottom: 10px;
-        margin-right: 10px;
+       
         }
     #deleteTrailButton{
         float: right;
@@ -104,7 +104,7 @@ margin-bottom: 20px;
     } 
     .wInfo{
         margin-top: -20px;
-        /* font-size: 12px; */
+        font-size: 15px;
     }   
     .timeDate{
         margin-top: 0px;

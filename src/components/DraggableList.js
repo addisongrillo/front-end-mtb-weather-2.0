@@ -51,7 +51,6 @@ class DraggableList extends Component {
     result.splice(endIndex, 0, removed);
     const updateArr=[];
       result.map(res => { updateArr.push(res.trail.id)})
-      //console.log(updateArr)
       this.updateOrderValue(updateArr)
     return result;
   };

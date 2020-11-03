@@ -6,7 +6,6 @@ import {
   Link,
   useHistory
 } from "react-router-dom";
-import PropTypes from 'prop-types';
 import {
   createMuiTheme,
   ThemeProvider,
@@ -39,7 +38,7 @@ import About from './components/About'
 import './App.css'
 
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 //const loggedin=true;
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -111,7 +110,7 @@ function App(props) {
    }
     //loggedin=== true ? setUsername(localStorage.getItem("username")) : setUsername("")
     //console.log(loggedin)
-  }, []);
+  }, [history]);
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
 
