@@ -160,7 +160,7 @@ function Trail(props) {
         <Button id ="deleteTrailButton"variant="contained" color="secondary" onClick={handleOpen}>Delete Trail</Button>
       </div>
       <CardContent className="hoursContainer" variant="outlined">
-      {apiDown &&
+      {apiDown==true &&
         <h1>Weather info currently not available</h1>
       }
       
