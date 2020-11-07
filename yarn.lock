@@ -7736,6 +7736,11 @@ onetime@^5.1.0:
   dependencies:
     mimic-fn "^2.1.0"
 
+open-path@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/open-path/-/open-path-1.0.6.tgz#0f94823e619ec7baad3f0c39880f93ed24589353"
+  integrity sha512-rJ8WMJfdspLzf27Bsbtj7PDbApQAXCOMcDkwzB4n+JEjm4Iajl66Gm1VbSESAtnlpbwSgqWN9q24QZd9EEIGrQ==
+
 open@^7.0.2:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/open/-/open-7.3.0.tgz#45461fdee46444f3645b6e14eb3ca94b82e1be69"
