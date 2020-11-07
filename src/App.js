@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  //BrowserRouter as Router,
   Switch,
   Route,
   Link,
@@ -21,14 +20,9 @@ import {
   Toolbar,
   Typography,
   CircularProgress,
-  //useTheme,
   makeStyles
 } from '@material-ui/core';
-// import {
-// InboxIcon,
-// ListItemIcon,
-// MailIcon,
-// } from '@material-ui/icons';
+
 import MenuIcon from '@material-ui/icons/Menu';
 import Weather from './components/weather';
 import AddNewTrail from './components/AddNewTrail'
@@ -39,7 +33,6 @@ import './App.css'
 
 
 const drawerWidth = 200;
-//const loggedin=true;
 const useStyles = makeStyles((theme) => ({
   '@global': {
     '*::-webkit-scrollbar': {
@@ -74,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
@@ -90,51 +82,43 @@ function App(props) {
   const linkUrls = ['/', '/AddNewTrail', '/About', '/Login']
   const [loading, setLoading] = useState(false);
   const [loggedin, setLoggedin] = useState(false);
-  //const [username, setUsername] = useState("");
   const history = useHistory();
-  //const LoginToggle = React.useCallback(() => setLoggedin(!loggedin));
 
   const changeLoading = (val) => {
     setLoading(val);
   }
-  
+
   useEffect(() => {
 
 
-    if(localStorage.getItem("token")!==null) {
+    if (localStorage.getItem("token") !== null) {
       setLoggedin(true)
-      //console.log("yah")
-   }else{
-     //console.log("nah")
-    history.push('/Login')
-   }
-    //loggedin=== true ? setUsername(localStorage.getItem("username")) : setUsername("")
-    //console.log(loggedin)
+    } else {
+      history.push('/Login')
+    }
   }, [history]);
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
+    setMobileOpen(!mobileOpen);
   };
-  const closeDrawer = () =>{
-    if (mobileOpen){
+  const closeDrawer = () => {
+    if (mobileOpen) {
       setMobileOpen(!mobileOpen);
     }
   }
   const LogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    //setUsername("")
     setLoggedin(false)
     history.push("/Login");
   }
-  const Login= ( data ) => {
+  const Login = (data) => {
     setLoggedin(true)
     localStorage.setItem("token", data.auth_token)
     localStorage.setItem("username", data.user.username)
     setLoading(true)
-    //setUsername(data.user.username)
   }
   const theme = createMuiTheme({
     palette: {
@@ -158,39 +142,27 @@ function App(props) {
     <div onClick={closeDrawer}>
       <h3 id="usernameDisplay">{localStorage.getItem("username")}</h3>
       <div className={classes.toolbar} />
-      
+
       <Divider />
       <List>
         {['Home', 'Add New Trail', 'About'].map((text, index) => (
           <Link to={linkUrls[index]} key={text}>
             <ListItem button >
-              {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
               <ListItemText primary={text} />
             </ListItem>
           </Link>
 
         ))}
         {loggedin === false && <Link to={linkUrls[3]} key={"Login"}>
-            <ListItem button >
-              {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-              <ListItemText primary="Login" />
-            </ListItem>
-          </Link>}
-        {loggedin === true && 
+          <ListItem button >
+            <ListItemText primary="Login" />
+          </ListItem>
+        </Link>}
+        {loggedin === true &&
           <ListItem button onClick={LogOut} >
-            {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary="Log Out" />
           </ListItem>}
       </List>
-      {/* <Divider /> */}
-      {/* <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List> */}
     </div>
   );
 
@@ -198,95 +170,86 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <Router> */}
-        {loading && <CircularProgress className="Spinner" size="6rem" />}
-        <div className={classes.root}>
-          <CssBaseline />
+      {loading && <CircularProgress className="Spinner" size="6rem" />}
+      <div className={classes.root}>
+        <CssBaseline />
 
-          <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                className={classes.menuButton}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap>
-                MTB Weather
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              MTB Weather
             </Typography>
-            </Toolbar>
-          </AppBar>
-          <nav className={classes.drawer} aria-label="mailbox folders">
-            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden smUp implementation="css">
-              <Drawer
-                container={container}
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-                }}
-              >
-                {drawer}
-              </Drawer>
-            </Hidden>
-            <Hidden xsDown implementation="css">
-              <Drawer
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                variant="permanent"
-                open
-              >
-                {drawer}
-              </Drawer>
-            </Hidden>
-          </nav>
-          <main className={classes.content}>
-            <div id="container">
+          </Toolbar>
+        </AppBar>
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className={classes.content}>
+          <div id="container">
 
 
-              <Switch>
-                <Route path="/AddNewTrail">
-                  <AddNewTrail key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />
-                </Route>
-                <Route path="/About">
-                  <About/>
-                </Route>
-                <Route path="/Login">
-                  <SignInForm  Login={Login}  changeLoading={changeLoading}/>
-                </Route>
-                <Route path="/CreateAccount">
-                  <CreateAccount  Login={Login}  changeLoading={changeLoading}/>
-                </Route>
-                <Route path="/">
-                  <Weather key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />
-                </Route>
-              </Switch>
+            <Switch>
+              <Route path="/AddNewTrail">
+                <AddNewTrail key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />
+              </Route>
+              <Route path="/About">
+                <About />
+              </Route>
+              <Route path="/Login">
+                <SignInForm Login={Login} changeLoading={changeLoading} />
+              </Route>
+              <Route path="/CreateAccount">
+                <CreateAccount Login={Login} changeLoading={changeLoading} />
+              </Route>
+              <Route path="/">
+                <Weather key={loggedin} loggedin={loggedin} changeLoading={changeLoading} />
+              </Route>
+            </Switch>
 
 
-            </div>
-          </main>
-        </div>
-      {/* </Router> */}
+          </div>
+        </main>
+      </div>
     </ThemeProvider>
   );
 }
 
-// App.propTypes = {
-//   /**
-//    * Injected by the documentation to work in an iframe.
-//    * You won't need it on your project.
-//    */
-//   window: PropTypes.func,
-// };
+
 
 export default App;

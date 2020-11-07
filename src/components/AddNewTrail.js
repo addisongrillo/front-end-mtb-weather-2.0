@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import {
   Link
 } from "react-router-dom";
@@ -7,7 +7,7 @@ import GoogleMapReact from 'google-map-react';
 import Geocode from "react-geocode"
 import { TextField, Button } from '@material-ui/core';
 import axios from 'axios';
-import {useMediaQuery} from '../hooks/useMediaQuery';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 function AddNewTrail(props) {
 
   const isMobile = useMediaQuery('(Max-width: 600px)');
@@ -24,7 +24,7 @@ function AddNewTrail(props) {
     }
     changeLoading(true);
     const result = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/trails?name=${trail.name}&lat=${trail.lat}&lon=${trail.lon}`,{},
+      `${process.env.REACT_APP_BACKEND_URL}/api/v1/trails?name=${trail.name}&lat=${trail.lat}&lon=${trail.lon}`, {},
       {
         headers: {
           'Authorization': localStorage.getItem("token")
@@ -40,7 +40,6 @@ function AddNewTrail(props) {
     console.log(result.data)
   }
   const [map, setMap] = useState(null);
-  //const [maps, setMaps] = useState(null);
   const [mapSearch, setMapSearch] = useState(null);
   const [trailName, setTrailName] = useState(null);
   const [trailAdded, setTrailAdded] = useState(false);
@@ -49,11 +48,10 @@ function AddNewTrail(props) {
 
   const handleApiLoaded = (map, maps) => {
     setMap(map)
-    //setMaps(maps)
   };
   const move = (e) => {
     e.preventDefault()
-    const search = mapSearch//e.target.elements.search.value
+    const search = mapSearch
     if (search) {
       Geocode.fromAddress(search)
         .then(
@@ -72,35 +70,12 @@ function AddNewTrail(props) {
     setTrailName(e.target.value)
   }
 
-  // var minStyles = {
-
-  //   margin: '0 auto',
-  //   height: '30vh',
-  //   width: '70vw',
-  //   textalign:'center'
-  // }
-  // var maxStyles = {
-  //   margin: '30px',
-  //   height: '50vh',
-  //   width: '70vh',
-  //   textalign:'center'
-  // }
-  // var style = function() {
-  //   if (window.innerWidth < 600) {
-  //     return minStyles;
-  //   } else {
-  //     return maxStyles;
-  //   }
-  // };
   const style = {
     container: isMobile => ({
-      // display: 'flex',
-      // flexDirection: isRowBased ? 'row' : 'column',
-      // justifyContent: 'space-around'
-    margin: isMobile ? '0 auto' : '30px',
-    height: isMobile ? '30vh':'50vh',
-    width: isMobile ? '70vw':'70vh',
-    textalign:'center'
+      margin: isMobile ? '0 auto' : '30px',
+      height: isMobile ? '30vh' : '50vh',
+      width: isMobile ? '70vw' : '70vh',
+      textalign: 'center'
     })
   };
   return (
@@ -111,25 +86,25 @@ function AddNewTrail(props) {
         </Link>
       }
       {props.loggedin &&
-      <div>
         <div>
-          <h1 id="header">Add New Trail</h1>
-        </div>
-        <div id="antContainer">
           <div>
-            <div id='gMap' style={style.container(isMobile)}>
-              <GoogleMapReact
-                bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY }}
-                defaultCenter={{
-                  lat: 26.134,
-                  lng: -80.351
-                }}
-                defaultZoom={14}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+            <h1 id="header">Add New Trail</h1>
+          </div>
+          <div id="antContainer">
+            <div>
+              <div id='gMap' style={style.container(isMobile)}>
+                <GoogleMapReact
+                  bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY }}
+                  defaultCenter={{
+                    lat: 26.134,
+                    lng: -80.351
+                  }}
+                  defaultZoom={14}
+                  yesIWantToUseGoogleMapApiInternals
+                  onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
 
-              >
-              </GoogleMapReact>
+                >
+                </GoogleMapReact>
               </div>
               <form id="searchForm">
                 <TextField id="search-input"
@@ -146,21 +121,21 @@ function AddNewTrail(props) {
                 />
                 <Button onClick={move} id="submitButton" variant="contained" color="primary" type="submit">Search</Button>
               </form>
-              </div>
-          <div id="AntForm">
-            <h2>Position the center of the map over the Trail</h2>
-            <h2>You can Drag the map or use the Search Bar</h2>
-            <TextField id="newTrailName"
-              label="Trail Name"
-              autoComplete="off"
-              variant="outlined"
-              onChange={changeTrailName}
-            />
-            <Button id="addTrailBtn" variant="contained" color="primary" onClick={addTrail}>Add Trail</Button>
-            {trailAdded && <p id="trailAdded">Trail Added!</p>}
+            </div>
+            <div id="AntForm">
+              <h2>Position the center of the map over the Trail</h2>
+              <h2>You can Drag the map or use the Search Bar</h2>
+              <TextField id="newTrailName"
+                label="Trail Name"
+                autoComplete="off"
+                variant="outlined"
+                onChange={changeTrailName}
+              />
+              <Button id="addTrailBtn" variant="contained" color="primary" onClick={addTrail}>Add Trail</Button>
+              {trailAdded && <p id="trailAdded">Trail Added!</p>}
+            </div>
           </div>
-        </div>
-      </div>}
+        </div>}
     </>
   )
 }

@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-// fake data generator
-// const getItems = count =>
-//   Array.from({ length: count }, (v, k) => k).map(k => ({
-//     id: `item-${k}`,
-//     content: `item ${k}`
-//   }));
-
-// a little function to help us with reordering the result
-
 
 const grid = 8;
 
@@ -24,8 +15,6 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
   // styles we need to apply on draggables
   ...draggableStyle,
-  //left:"30%",
-  //top:"30%",
 });
 
 const getListStyle = isDraggingOver => ({

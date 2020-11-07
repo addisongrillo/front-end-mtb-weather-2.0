@@ -27,11 +27,10 @@ const useStyles = makeStyles((theme) => ({
 function Weather(props) {
   const classes = useStyles();
   const [weather, setWeather] = useState({ trails: [] });
-  //const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState([]);
-  const [noTrails, setNoTrails] =useState([false]);
- 
+  const [noTrails, setNoTrails] = useState([false]);
+
 
   const handleOpen = (id) => {
     setOpen(true);
@@ -56,38 +55,32 @@ function Weather(props) {
           'Authorization': localStorage.getItem("token")
         }
       }
-    ).then((res =>{
-      //if(res.data.trail.weather.cod > 0){
-      //  console.log('nah')
-      //}else{
-        setNoTrails(false);
-        setWeather(res.data);
-      //}
-      
-    changeLoading(false)
+    ).then((res => {
+      setNoTrails(false);
+      setWeather(res.data);
+
+      changeLoading(false)
     })
 
-    ).catch( (error) =>{
+    ).catch((error) => {
       if (error.response) {
-          setNoTrails(true);
-          console.log(error.response)
+        setNoTrails(true);
+        console.log(error.response)
       } else if (error.request) {
-          setNoTrails(true);
-          console.log(error.request);
+        setNoTrails(true);
+        console.log(error.request);
       } else {
         setNoTrails(true);
         console.log('Error', error.message);
       }
       changeLoading(false)
-  }) 
+    })
 
-    
+
   };
 
   useEffect(() => {
-    // if(localStorage.getItem("token")!==null){
-      if(props.loggedin === true){
-      //console.log("loggedin")
+    if (props.loggedin === true) {
       fetchData();
     }
   }, [props.loggedin]);
@@ -104,7 +97,6 @@ function Weather(props) {
     setWeather(weather.filter(x => x.trail.id !== id))
     weather.length < 1 ? setNoTrails(true) : setNoTrails(false)
     changeLoading(false)
-    //console.log(result.status)
   }
   const updateOrder = async () => {
     if (order.length > 0) {
@@ -124,16 +116,16 @@ function Weather(props) {
   }
   return (
     <>
-    {!props.loggedin &&
-      <Link to={'/login'}>
-        <h1 id="loginText">Log in to view your trails.</h1>
-      </Link>
-    }
-    {(props.loggedin && noTrails===true) &&
-      <Link to={'/AddNewTrail'}>
-        <h1 id="addTrailText">You don't have any trails, Click here to add some.</h1>
-      </Link>
-    }
+      {!props.loggedin &&
+        <Link to={'/login'}>
+          <h1 id="loginText">Log in to view your trails.</h1>
+        </Link>
+      }
+      {(props.loggedin && noTrails === true) &&
+        <Link to={'/AddNewTrail'}>
+          <h1 id="addTrailText">You don't have any trails, Click here to add some.</h1>
+        </Link>
+      }
       <div id="container">
         <Modal
           id="orderModal"
@@ -149,7 +141,7 @@ function Weather(props) {
           </div>
         </Modal>
         {weather.length > 0 &&
-        <Button id="changeOrderButton" variant="contained" color="primary" onClick={handleOpen}>Change Order</Button>}
+          <Button id="changeOrderButton" variant="contained" color="primary" onClick={handleOpen}>Change Order</Button>}
         {weather.length > 0 &&
           weather.map(t => {
             return <Trail deleteTrail={deleteTrail} changeLoading={changeLoading} key={t.trail.id} trail={t} />

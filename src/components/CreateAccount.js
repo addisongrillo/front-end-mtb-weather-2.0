@@ -24,24 +24,24 @@ function CreateAccount(props) {
         setPassword(evt.target.value)
     }
 
-    const handleLogin = async() =>{
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/authenticate`, 
-        JSON.stringify({
-            username,
-            password
-        }),
-        {headers: {
+    const handleLogin = async () => {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/authenticate`,
+            JSON.stringify({
+                username,
+                password
+            }),
+            {
+                headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
-                    }
-        }
+                }
+            }
         ).then((res) => {
             setUsername("")
             setPassword("")
             props.Login(res.data)
-            //props.changeLoading(false)
             history.push("/");
-        }).catch( (error) =>{
+        }).catch((error) => {
             if (error.response) {
                 setError(true)
                 console.log(error.response)
@@ -53,25 +53,26 @@ function CreateAccount(props) {
                 setError(true)
             }
             props.changeLoading(false)
-        })   
+        })
     }
-    
+
     const handleSubmit = async (evt) => {
         evt.preventDefault()
         props.changeLoading(true)
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users`, 
-        JSON.stringify({
-            username,
-            password
-        }),
-        {headers: {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users`,
+            JSON.stringify({
+                username,
+                password
+            }),
+            {
+                headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
-                    }
-        }
+                }
+            }
         ).then(() => {
             handleLogin()
-        }).catch( (error) =>{
+        }).catch((error) => {
             if (error.response) {
                 console.log(error.response)
                 setError(true)
@@ -83,84 +84,79 @@ function CreateAccount(props) {
                 setError(true)
             }
             props.changeLoading(false)
-        })   
-        
+        })
+
     }
 
-    return(
+    return (
         <div>
 
             <Grid container spacing={0} justify="center" direction="row">
-                    <Grid item>
-                        <Grid
-                            container
-                            direction="column"
-                            justify="center"
-                            spacing={2}
-                            className="login-form"
+                <Grid item>
+                    <Grid
+                        container
+                        direction="column"
+                        justify="center"
+                        spacing={2}
+                        className="login-form"
+                    >
+                        <Paper
+                            variant="elevation"
+                            elevation={2}
+                            className="login-background"
                         >
-                            <Paper
-                                variant="elevation"
-                                elevation={2}
-                                className="login-background"
-                            >
-                                <Grid item>
-                                    
-                                    <Typography id="signin" component="h1" variant="h5">
-                                        Create Account
+                            <Grid item>
+
+                                <Typography id="signin" component="h1" variant="h5">
+                                    Create Account
                                     </Typography>
-                                    
-                                   
-                                </Grid>
-                                <Grid item>
-                                    <form onSubmit={handleSubmit}>
-                                        <Grid container direction="column" spacing={2}>
-                                            <Grid item>
-                                                <TextField
-                                                    placeholder="Username"
-                                                    fullWidth
-                                                    name="username"
-                                                    variant="outlined"
-                                                    value={username}
-                                                    onChange={handleUsernameChange}
-                                                    required
-                                                    autoFocus
-                                                />
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField
-                                                    type="password"
-                                                    placeholder="Password"
-                                                    fullWidth
-                                                    name="password"
-                                                    variant="outlined"
-                                                    value={password}
-                                                    onChange={handlePasswordChange}
-                                                    required
-                                                />
-                                            </Grid>
-                                            <Grid item>
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    type="submit"
-                                                    className="button-block"
-                                                >
-                                                    Create Account
-                                                </Button>
-                                            </Grid>
+
+
+                            </Grid>
+                            <Grid item>
+                                <form onSubmit={handleSubmit}>
+                                    <Grid container direction="column" spacing={2}>
+                                        <Grid item>
+                                            <TextField
+                                                placeholder="Username"
+                                                fullWidth
+                                                name="username"
+                                                variant="outlined"
+                                                value={username}
+                                                onChange={handleUsernameChange}
+                                                required
+                                                autoFocus
+                                            />
                                         </Grid>
-                                    </form>
-                                </Grid>
-                                {/* <Grid item>
-                                    <Link href="#" variant="body2">
-                                        Forgot Password?
-                                    </Link>
-                                </Grid> */}
-                            </Paper>
-                        </Grid>
+                                        <Grid item>
+                                            <TextField
+                                                type="password"
+                                                placeholder="Password"
+                                                fullWidth
+                                                name="password"
+                                                variant="outlined"
+                                                value={password}
+                                                onChange={handlePasswordChange}
+                                                required
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                type="submit"
+                                                className="button-block"
+                                            >
+                                                Create Account
+                                                </Button>
+                                        </Grid>
+                                    </Grid>
+                                </form>
+                            </Grid>
+                        </Paper>
                     </Grid>
                 </Grid>
+            </Grid>
         </div>
     )
 }
